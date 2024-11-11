@@ -140,7 +140,6 @@ h3 {
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>Id</th>
 					<th>Title</th>
 					<th>Date</th>
 					<th>Status</th>
@@ -151,7 +150,6 @@ h3 {
 			</thead>
 			<tbody>
 				<tr th:each="todo : ${list}" th:if="${todo.status == 'Completed'}">
-					<td th:text="${todo.id}"></td>
 					<td th:text="${todo.title}"></td>
 					<td th:text="${#dates.format(todo.date, 'yyyy-MM-dd')}"></td>
 					<td th:text="${todo.status}"></td>
