@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Add ToDo</title>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	/* Consistent font */
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background-color: #E6F7FF; /* Light blue background */
+	margin: 0;
+	padding: 1rem;
+}
+
+.container {
+	width: 450px;
+	padding: 2rem;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 0.85);
+	/* Slightly translucent white background */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	/* Subtle shadow for depth */
+	text-align: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+input[type="text"], input[type="date"] {
+	width: 100%;
+	padding: 0.8rem;
+	margin: 0.5rem 0;
+	border: 2px solid #005f73; /* Dark blue border */
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	color: #333;
+	font-size: 1rem;
+}
+
+input[type="text"]::placeholder, input[type="date"]::placeholder {
+	color: #A594F9; /* Soft blue placeholder color */
+}
+
+button {
+	padding: 0.8rem;
+	margin-top: 1rem;
+	background-color: #008CBA; /* Medium blue for button */
+	color: #FFFFFF;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 1.1rem;
+	transition: background-color 0.3s ease;
+}
+
+button:hover {
+	background-color: #005f73; /* Dark blue hover effect */
+}
+
+h3 {
+	margin-bottom: 1rem;
+	color: #005f73; /* Dark blue title */
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.back-link {
+	margin-top: 1rem;
+	display: inline-block;
+	color: #005f73; /* Dark blue link */
+	font-size: 1rem;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+.back-link:hover {
+	color: #A594F9; /* Soft blue hover for links */
+	text-decoration: underline;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h3>Add ToDo Item</h3>
+		<form th:action="@{/saveToDoItem/{projectId}(projectId=${projectId})}"
+			method="POST" th:object="${todo}">
+			<input type="hidden" th:field="*{id}">
+			<div class="mb-3">
+				<input type="text" th:field="*{title}" placeholder="Title"
+					required="required">
+			</div>
+			<div class="mb-3">
+				<input type="date" th:field="*{date}" placeholder="Date"
+					required="required" id="date">
+			</div>
+			<div class="mb-3">
+				<input type="hidden" th:field="*{status}" th:value="Pending...">
+			</div>
+			<button type="submit">Save</button>
+		</form>
+		<a th:href="@{/viewToDoList/{projectId}(projectId=${projectId})}"
+			class="back-link">Back to Dashboard</a>
+	</div>
+
+	<script>
+		// Set the date input to today's date
+		document.addEventListener("DOMContentLoaded", function() {
+			const dateInput = document.getElementById("date");
+			const today = new Date().toISOString().split("T")[0]; // Format date to YYYY-MM-DD
+			dateInput.value = today;
+		});
+	</script>
+</body>
+</html>
